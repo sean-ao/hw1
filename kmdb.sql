@@ -207,8 +207,8 @@ INNER JOIN studios ON release_dates.movie_name = studios.release_date_id
 
 
 -- The SQL statement for the cast output
-SELECT release_dates.movie_name, actors.actor_name, characters.character
+SELECT release_dates.movie_name, actors.actor_name, character_names.character
 FROM release_dates
 INNER JOIN actors ON release_dates.movie_name = actors.release_date_id
-INNER JOIN characters ON release_dates.movie_name = characters.release_date_id
+INNER JOIN character_names ON release_dates.movie_name = character_names.release_date_id
 ;
