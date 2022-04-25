@@ -100,29 +100,115 @@
 .headers off
 
 -- Drop existing tables, so you'll start fresh each time this script is run.
--- TODO!
+DROP TABLE IF EXISTS release_dates;
+DROP TABLE IF EXISTS ratings;
+DROP TABLE IF EXISTS studios;
+DROP TABLE IF EXISTS actors;
+DROP TABLE IF EXISTS character_names;
 
 -- Create new tables, according to your domain model
--- TODO!
+CREATE TABLE release_dates (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  movie_name TEXT,
+  movie_date INTEGER
+);
+
+CREATE TABLE ratings (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  release_date_id INTEGER,
+  mpaa TEXT,
+);
+
+CREATE TABLE studios (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  release_date_id INTEGER,
+  studio_name TEXT
+);
+
+CREATE TABLE actors (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  release_date_id INTEGER,
+  actor_name TEXT,
+);
+
+CREATE TABLE character_names (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  release_date_id INTEGER,
+  character TEXT
+);
 
 -- Insert data into your database that reflects the sample data shown above
 -- Use hard-coded foreign key IDs when necessary
--- TODO!
+INSERT INTO release_dates (movie_name, movie_date)
+VALUES ('Batman Begins', 2005)
+VALUES ('The Dark Knight Rises', 2008)
+VALUES ('The Dark Knight Rises', 2012)
+;
+
+INSERT INTO ratings (mpaa)
+VALUES ('PG-13')
+VALUES ('PG-13')
+VALUES ('PG-13')
+;
+
+INSERT INTO studios (studio_name)
+VALUES ('Warner Bros.')
+VALUES ('Warner Bros.')
+VALUES ('Warner Bros.')
+;
+
+INSERT INTO actors (actor_name)
+VALUES ('Christian Bale')
+VALUES ('Michael Caine')
+VALUES ('Liam Neeson')
+VALUES ('Katie Holmes')
+VALUES ('Gary Oldman')
+VALUES ('Heath Ledger')
+VALUES ('Aaron Eckhart')
+VALUES ('Maggie Gyllenhaal')
+VALUES ('Tom Hardy')
+VALUES ('Joseph Gordon-Levitt')
+VALUES ('Anne Hathaway')
+;
+
+INSERT INTO character_names (character)
+VALUES ('Bruce Wayne')
+VALUES ('Alfred')
+VALUES ('Ra's Al Ghul')
+VALUES ('Rachel Dawes')
+VALUES ('Commissioner Gordon')
+VALUES ('Joker')
+VALUES ('Harvey Dent')
+VALUES ('Rachel Dawes')
+VALUES ('Bane')
+VALUES ('John Blake')
+VALUES ('Selina Kyle')
+;
 
 -- Prints a header for the movies output
 .print "Movies"
-.print "======"
-.print ""
+.print "Title"
+.print "Year"
+.print "Rating"
+.print "Studio"
 
 -- The SQL statement for the movies output
--- TODO!
+SELECT release_dates.movie_name, release_dates.movie_date, ratings.mpaa, studios.studio_name
+FROM release_dates
+INNER JOIN ratings ON release_dates.movie_name = ratings.release_date_id
+INNER JOIN studios ON release_dates.movie_name = studios.release_date_id
+;
 
 -- Prints a header for the cast output
-.print ""
 .print "Top Cast"
-.print "========"
-.print ""
+.print "Title"
+.print "Actor"
+.print "Character"
 
 
 -- The SQL statement for the cast output
--- TODO!
+SELECT release_dates.movie_name, actors.actor_name, characters.character
+FROM release_dates
+INNER JOIN actors ON release_dates.movie_name = actors.release_date_id
+INNER JOIN characters ON release_dates.movie_name = characters.release_date_id
+;
